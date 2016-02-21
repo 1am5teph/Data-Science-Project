@@ -17,11 +17,21 @@ Created on Wed Feb 17 20:56:40 2016
 #print(data)
 
 import praw
+import sys
+
 r = praw.Reddit(user_agent='Post Subject on r/Portland')
+r.config.decode_html_entities = True
 
 print('hello!')
 subreddit = r.get_subreddit(input('pick a subreddit: '))
-print('the top 5 hot posts are: ')
-for post in subreddit.get_hot(limit = 5):
-    print(post)
+for post in subreddit.get_hot(): 
+    posts = post.title
+    print(posts.encode(sys.stdout.encoding, errors = 'ignore'))
 
+
+      
+# Receiving encoding errors on some posts - must contain unrecognized character
+    
+
+
+#search subreddit for time period
