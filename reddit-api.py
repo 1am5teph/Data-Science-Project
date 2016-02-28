@@ -18,6 +18,7 @@ Created on Wed Feb 17 20:56:40 2016
 import praw
 import sys
 import json
+from datetime import datetime
 
 submissions = []
 
@@ -33,34 +34,17 @@ subreddit = r.get_subreddit(input('pick a subreddit: '))
 posts = []
 
 for post in subreddit.get_new(limit=2):
-    # DON"T USE
-    # title = str(post.title)
-    # Receiving encoding errors on some posts - must contain unrecognized character
-    # print(title.encode(sys.stdout.encoding, errors = 'replace'))
-
     postID = str(post.id)
     posts.append(postID)
     titlePoints = r.get_submission(submission_id = postID)
     print(titlePoints)
-    print(str(titlePoints.created_utc))
+    SubmissionTimeStamp = datetime.fromtimestamp(titlePoints.created_utc)
+    print(SubmissionTimeStamp)
     CommentID = praw.helpers.flatten_tree(titlePoints.comments)
     for comment in CommentID:
         print(str(comment.body))
-        print(str(comment.created_utc))
-
-    # DON"T USE
-    # postComments = submissionText.comments # this gives me comments object key
-    # print(postComments) # this gives me comments object key
-
-# get date
-# for post in posts:
-#     dateTime = r.get_created_utc()
-#     print(dateTime)
-
-
-# for i, submission in enumerate(subreddit.get_hot(limit=10)):
-#     submissions.append(r.get_submission(submission_id = submission.id))
-# print(submissions)
+        CommentTimeStamp = datetime.fromtimestamp(comment.created_utc)
+        print(CommentTimeStamp)
 
 ##create dataset for specific time period
 #    #need title, dates, submissions, and count
