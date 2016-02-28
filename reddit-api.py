@@ -4,7 +4,6 @@ Created on Wed Feb 17 20:56:40 2016
 
 @author: Lil Puter
 """
-
 # import json
 # import requests
 #
@@ -31,17 +30,27 @@ r = praw.Reddit(user_agent='Post Subject on r/Portland')
 #pick a subreddit
 print('hello! i will compile reddit submissions.')
 subreddit = r.get_subreddit(input('pick a subreddit: '))
+posts = []
 
 for post in subreddit.get_new(limit=2):
     # title = str(post.title)
-    postID = str(post.id)
-    submissionText = r.get_submission(submission_id = postID)
-    submissionComments = submissionText.comments
-# Receiving encoding errors on some posts - must contain unrecognized character
+    # Receiving encoding errors on some posts - must contain unrecognized character
     # print(title.encode(sys.stdout.encoding, errors = 'replace'))
-    print(submissionText)
-    print(submissionComments)
 
+    postID = str(post.id)
+    posts.append(postID)
+    titlePoints = r.get_submission(submission_id = postID)
+    print(titlePoints)
+    CommentID = praw.helpers.flatten_tree(titlePoints.comments)
+    for comment in CommentID:
+        print(str(comment.body))
+    # postComments = submissionText.comments # this gives me comments object key
+    # print(postComments) # this gives me comments object key
+
+# get date
+# for post in posts:
+#     dateTime = r.get_created_utc()
+#     print(dateTime)
 
 
 # for i, submission in enumerate(subreddit.get_hot(limit=10)):
