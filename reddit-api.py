@@ -4,17 +4,6 @@ Created on Wed Feb 17 20:56:40 2016
 
 @author: Lil Puter
 """
-# import json
-# import requests
-
-# Get Data
-# r = requests.get("https://reddit/r/portland/api/")
-# r.text
-
-# ## Convert to dictionary
-# data = json.loads(r.text)
-# print(data)
-
 import praw
 import sys
 import json
@@ -40,19 +29,29 @@ for post in subreddit.get_new(limit=2):
     # Get Post Title and Total Points
     titlePoints = r.get_submission(submission_id = postID)
     # print(titlePoints)
+
+    # Tag Karma and Title for titlePoints
+    stringTitle = str(titlePoints)
+    karma, title = stringTitle.split(":: ")
+
     # Get Post Timestamp
     SubmissionTimeStamp = datetime.fromtimestamp(titlePoints.created_utc)
     # print(SubmissionTimeStamp)
+
     #Get Post Comments
     CommentID = praw.helpers.flatten_tree(titlePoints.comments)
     for comment in CommentID:
-        postComments = []
         commentText = str(comment.body)
         # print(commentText)
         # Get Comment Timestamp
         CommentTimeStamp = datetime.fromtimestamp(comment.created_utc)
         # print(CommentTimeStamp)
-    postdic.update({str(titlePoints): str(SubmissionTimeStamp)})
+
+    # append to post dictionary
+    postDetails = []
+    postDetails.append(karma)
+    postDetails.append(str(SubmissionTimeStamp))
+    postdic.update({title: postDetails})
 
 print(postdic)
 
