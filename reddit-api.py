@@ -4,20 +4,23 @@ Created on Wed Feb 17 20:56:40 2016
 
 @author: Lil Puter
 """
-#doesn't work
-#import json
-#import requests
+
+# import json
+# import requests
 #
-## Get Data
-#r = requests.get("https://github.com/r/portland/api/subreddits")
-#r.text
-#
-## Convert to dictionary
-#data = json.loads(r.text)
-#print(data)
+# # Get Data
+# r = requests.get("https://reddit/r/portland/api/")
+# r.text
+# #
+# ## Convert to dictionary
+# data = json.loads(r.text)
+# print(data)
 
 import praw
 import sys
+import json
+
+submissions = []
 
 r = praw.Reddit(user_agent='Post Subject on r/Portland')
 #works
@@ -28,25 +31,30 @@ r = praw.Reddit(user_agent='Post Subject on r/Portland')
 #pick a subreddit
 print('hello! i will compile reddit submissions.')
 subreddit = r.get_subreddit(input('pick a subreddit: '))
-#
+
+for post in subreddit.get_new(limit=2):
+    # title = str(post.title)
+    postID = str(post.id)
+    submissionText = r.get_submission(submission_id = postID)
+    submissionComments = submissionText.comments
+# Receiving encoding errors on some posts - must contain unrecognized character
+    # print(title.encode(sys.stdout.encoding, errors = 'replace'))
+    print(submissionText)
+    print(submissionComments)
+
+
+
+# for i, submission in enumerate(subreddit.get_hot(limit=10)):
+#     submissions.append(r.get_submission(submission_id = submission.id))
+# print(submissions)
+
 ##create dataset for specific time period
 #    #need title, dates, submissions, and count
 #
 #    #get title submissions for past year
 #    #TO-DO: use user input in future
-for post in subreddit.get_new(): 
-    title = post.title
-    # print(title.encode(sys.stdout.encoding, errors = 'replace'))
-    # Receiving encoding errors on some posts - must contain unrecognized character
-    submission = get_submissions(post)
-    print(submission)
-
-#content = r.get_submissions(page_url = 'reddit.com/r/portland', limit = 10)    
+#content = r.get_submissions(page_url = 'reddit.com/r/portland', limit = 10)
 #submissions =r.search(query = 'cat', limit = 10)
 #print(submissions)
 #create dictionary
     #Keywords: homeless, rent, gentrification, california, market, dodg, cat
-
-
-    
-    
