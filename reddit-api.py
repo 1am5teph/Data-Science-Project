@@ -33,6 +33,7 @@ subreddit = r.get_subreddit(input('pick a subreddit: '))
 posts = []
 
 for post in subreddit.get_new(limit=2):
+    # DON"T USE
     # title = str(post.title)
     # Receiving encoding errors on some posts - must contain unrecognized character
     # print(title.encode(sys.stdout.encoding, errors = 'replace'))
@@ -41,9 +42,13 @@ for post in subreddit.get_new(limit=2):
     posts.append(postID)
     titlePoints = r.get_submission(submission_id = postID)
     print(titlePoints)
+    print(str(titlePoints.created_utc))
     CommentID = praw.helpers.flatten_tree(titlePoints.comments)
     for comment in CommentID:
         print(str(comment.body))
+        print(str(comment.created_utc))
+
+    # DON"T USE
     # postComments = submissionText.comments # this gives me comments object key
     # print(postComments) # this gives me comments object key
 
