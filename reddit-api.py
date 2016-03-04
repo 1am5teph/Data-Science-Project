@@ -5,10 +5,11 @@ Created on Wed Feb 17 20:56:40 2016
 @author: Lil Puter
 """
 import praw
-import sys
 import pickle
+import pandas
 from datetime import datetime
 # import json
+# import sqlite3
 
 r = praw.Reddit(user_agent = 'Post Subject on r/Portland')
 # works
@@ -61,6 +62,22 @@ def getComments():
 data_file = "data-file"
 fileObject = open(data_file, 'wb')
 pickle.dump(postdic, fileObject)
+fileObject.close()
+
+# dic = pickle.load(open("data-file", "rb"))
+dic_keys = dic.keys()
+
+
+data = pandas.DataFrame(dic)
+# for i in len(dic_keys):
+#     dic.value
+# Create database
+# reddit_db = sqlite3.connect("reddit.db")
+# with reddit_db:
+#     cursor = reddit_db.cursor()
+#     cursor.execute("""CREATE TABLE reddit_posts
+#         (title text, time_stamp datetime, karma int)""")
+
 
 
 
