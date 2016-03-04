@@ -6,10 +6,11 @@ Created on Wed Feb 17 20:56:40 2016
 """
 import praw
 import sys
-# import json
+import pickle
 from datetime import datetime
+# import json
 
-r = praw.Reddit(user_agent='Post Subject on r/Portland')
+r = praw.Reddit(user_agent = 'Post Subject on r/Portland')
 # works
 # username = input('username: ')
 # password = input('password: ')
@@ -23,7 +24,7 @@ subreddit = r.get_subreddit(input('pick a subreddit: '))
 postdic = {}
 
 # Get New Subreddit Posts
-for post in subreddit.get_new(limit=1):
+for post in subreddit.get_new(limit = 5):
     # Get Post ID
     postID = str(post.id)
     # Get Post Title and Total Points
@@ -40,6 +41,9 @@ for post in subreddit.get_new(limit=1):
 
     #append to post dictionary
     postdic[title] = str(submissionTimeStamp), karma
+
+
+def getComments():
     #Get Post Comments
     CommentID = praw.helpers.flatten_tree(titlePoints.comments)
     for comment in CommentID:
@@ -51,9 +55,19 @@ for post in subreddit.get_new(limit=1):
 
         # append to post dictionary
         postdic[title] = commentTimeStamp, commentText
-print(postdic)
+        return(postdic)
+
+# pickle it
+data_file = "data-file"
+fileObject = open(data_file, 'wb')
+pickle.dump(postdic, fileObject)
 
 
+
+# for k, v in postdic.items():
+#     print("title: ", k)
+#     print("date: ", v)
+#     print("karma: ", v[1])
 ##create dataset for specific time period
 #    #need title, dates, submissions, and count
 #
