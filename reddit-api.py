@@ -60,36 +60,37 @@ def getComments():
 
 # Create a DataFrame
 data = pandas.DataFrame.from_dict(postdic,orient = 'index')
-data.columns = (['TimeStamp', 'Karma'])
+# Dataframe uses PostTitle as index
+# Creates 0, n.... index
+data = data.reset_index()
+data.columns = (['PostTitle', 'TimeStamp', 'Karma'])
 print(data)
 
 # pickle it
-# data_file = "data-file"
-# fileObject = open(data_file, 'wb')
-# pickle.dump(postdic, fileObject)
-# fileObject.close()
+data_file = "data-file"
+fileObject = open(data_file, 'wb')
+pickle.dump(data, fileObject)
+fileObject.close()
 
 # dump pickle
 # dic = pickle.load(open("data-file", "rb"))
 
-# for i in len(dic_keys):
-#     dic.value
-# Create database
-# reddit_db = sqlite3.connect("reddit.db")
-# with reddit_db:
-#     cursor = reddit_db.cursor()
-#     cursor.execute("""CREATE TABLE reddit_posts
-#         (title text, time_stamp datetime, karma int)""")
+# create list of words
+wordList = {}
+
+for i in df['PostTitle']:
+    postString = str(i.lower())
+    words = postString.split()
+    for w in words:
+        #ignore 'the', 'and', 'a', 'an'
+        if w == 'the'|'an':
+            continue
+        else:
+            wordList.append(w)
 
 
 
 
-# for k, v in postdic.items():
-#     print("title: ", k)
-#     print("date: ", v)
-#     print("karma: ", v[1])
-##create dataset for specific time period
-#    #need title, dates, submissions, and count
 #
 #    #get title submissions for past year
 #    #TO-DO: use user input in future
