@@ -58,17 +58,20 @@ def getComments():
         postdic[title] = commentTimeStamp, commentText
         return(postdic)
 
+# Create a DataFrame
+data = pandas.DataFrame.from_dict(postdic,orient = 'index')
+data.columns = (['TimeStamp', 'Karma'])
+print(data)
+
 # pickle it
-data_file = "data-file"
-fileObject = open(data_file, 'wb')
-pickle.dump(postdic, fileObject)
-fileObject.close()
+# data_file = "data-file"
+# fileObject = open(data_file, 'wb')
+# pickle.dump(postdic, fileObject)
+# fileObject.close()
 
+# dump pickle
 # dic = pickle.load(open("data-file", "rb"))
-dic_keys = dic.keys()
 
-
-data = pandas.DataFrame(dic)
 # for i in len(dic_keys):
 #     dic.value
 # Create database
