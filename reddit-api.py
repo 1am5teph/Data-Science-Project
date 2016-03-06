@@ -83,7 +83,7 @@ for i in df['PostTitle']:
     words = postString.split()
     for w in words:
         #ignore 'the', 'and', 'a', 'an'
-        if w == 'the'|'an':
+        if w == 'the':
             continue
         else:
             wordList.append(w)
